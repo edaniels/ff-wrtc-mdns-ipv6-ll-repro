@@ -1,0 +1,16 @@
+<html>
+    <head>
+    <script type="text/javascript">
+        let pc = new RTCPeerConnection();
+        pc.createDataChannel('dc');
+        pc.onicecandidate = event => {
+            if (event.candidate === null) {
+                document.getElementById("sdp").innerHTML = JSON.stringify(pc.localDescription);
+            }
+        }
+        pc.onnegotiationneeded = () => pc.createOffer().then(d => pc.setLocalDescription(d))
+    </script>
+    <body>
+        <span id="sdp"></span>
+    </body>
+</html>
